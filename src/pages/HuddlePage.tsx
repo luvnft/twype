@@ -16,13 +16,14 @@ import { useDisplayName } from "@huddle01/react/app-utils";
 type HuddlePageProps = {};
 const PROJECT_ID = import.meta.env.VITE_HUDDLE_PROJECT_ID;
 const apiKey = import.meta.env.VITE_HUDDLE_API_KEY;
+const devRoom = import.meta.env.VITE_HUDDLE_DEV_ROOM;
 
 // https://wagmi.sh/
 // https://huddle01.com/docs/apis/types/token-gated-room
 export const HuddlePage: FC<HuddlePageProps> = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { state, send } = useMeetingMachine();
-  const [roomId, setRoomId] = useState("xor-kmrk-zlq");
+  const [roomId, setRoomId] = useState(devRoom);
   const [displayNameText, setDisplayNameText] = useState("Guest");
   const [projectId, setProjectId] = useState(PROJECT_ID);
   const [accessToken, setAccessToken] = useState("");
@@ -51,6 +52,7 @@ export const HuddlePage: FC<HuddlePageProps> = () => {
   });
 
   const { peers } = usePeers();
+  console.log("🚀 ~ peers:", peers);
 
   const {
     startRecording,
@@ -146,7 +148,7 @@ export const HuddlePage: FC<HuddlePageProps> = () => {
             className="border-2 border-gray-300 h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mr-2"
           />
           <button
-            // disabled={!initialize.isCallable}
+            disabled={!initialize.isCallable}
             onClick={() => {
               initialize(projectId);
             }}

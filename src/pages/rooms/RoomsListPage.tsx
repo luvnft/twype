@@ -1,12 +1,12 @@
 import { FC } from "react";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
 
-type RoomPageProps = {};
+type RoomsListPageProps = {};
 
-export const RoomPage: FC<RoomPageProps> = () => {
+export const RoomsListPage: FC<RoomsListPageProps> = () => {
   return (
     <MainLayout>
-      <div>RoomPage</div>
+      <div>RoomsListPage</div>
     </MainLayout>
   );
 };

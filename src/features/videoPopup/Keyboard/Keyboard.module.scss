@@ -9,6 +9,8 @@
 .button {
   --button-size: 60px;
   --button-distance: calc((var(--button-size) + var(--size-gap)) * -1);
+  --button-bg: var(--keyboard-button-bg, rgba(#000, 0.5));
+  --button-color: var(--keyboard-button-color, var(--color-text));
 
   @include resetButton;
   display: flex;
@@ -20,7 +22,8 @@
   width: var(--button-size);
   height: var(--button-size);
   border-radius: 4px;
-  background: rgba(#000, 0.5);
+  background: var(--button-bg);
+  color: var(--button-color);
   font-size: var(--font-large);
   transition: transform 0.2s ease-in-out;
 
