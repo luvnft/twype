@@ -1,0 +1,56 @@
+.keyboard {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  transition: all 0.2s ease-in-out;
+}
+
+.button {
+  --button-size: 60px;
+  --button-distance: calc((var(--button-size) + var(--size-gap)) * -1);
+
+  @include resetButton;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-gap);
+  position: absolute;
+  top: 0;
+  width: var(--button-size);
+  height: var(--button-size);
+  border-radius: 4px;
+  background: rgba(#000, 0.5);
+  font-size: var(--font-large);
+  transition: transform 0.2s ease-in-out;
+
+  .visible & {
+    transform: translateY(var(--button-distance));
+  }
+}
+
+.mic,
+.camera {
+  top: var(--button-distance);
+}
+
+.mic {
+  left: var(--size-gap);
+  transition-delay: 0.1s;
+}
+
+.camera {
+  right: var(--size-gap);
+  transition-delay: 0.2s;
+}
+
+.call,
+.cancel {
+  left: var(--size-gap);
+  width: calc(100% - (var(--size-gap) * 2));
+  background: var(--color-success);
+}
+
+.cancel {
+  background: var(--color-danger);
+}

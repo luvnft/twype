@@ -1,0 +1,8 @@
+.catalogue {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-gap);
+  padding: var(--size-gap);
+  background: var(--color-common);
+}

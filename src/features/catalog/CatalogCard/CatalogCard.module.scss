@@ -1,0 +1,62 @@
+.card {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  width: 120px;
+  height: 200px;
+  border-radius: 4px;
+  background: var(--color-primary);
+
+  &,
+  &:hover,
+  &:active {
+    color: var(--color-common);
+  }
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+}
+
+.photo,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  padding: 4px 4px;
+  background: rgba(#000, 0.7);
+  font-size: 12px;
+  text-align: center;
+}
+
+.stream,
+.price {
+  position: absolute;
+  top: 4px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: var(--color-common);
+  line-height: 1;
+  font-size: 10px;
+}
+
+.stream {
+  left: 4px;
+  background: var(--color-danger);
+}
+
+.price {
+  right: 4px;
+  background: var(--color-success);
+}

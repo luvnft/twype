@@ -1,0 +1,44 @@
+.avatar {
+  overflow: hidden;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--color-hint);
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: var(--color-tertiary);
+  }
+
+  &::before {
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+  }
+
+  &::after {
+    top: 60%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+  }
+}

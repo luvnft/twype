@@ -1,0 +1,29 @@
+$bp-desktop: 1280px;
+$bp-tablet: 768px;
+$bp-mobile: 320px;
+
+@mixin device($size) {
+  @if $size == desktop {
+    @media (min-width: $bp-desktop) {
+      @content;
+    }
+  } @else if $size == tablet {
+    @media (min-width: $bp-tablet) and (max-width: ($bp-desktop - 1)) {
+      @content;
+    }
+  } @else if $size == mobile {
+    @media (max-width: ($bp-tablet - 1)) {
+      @content;
+    }
+  } @else if $size == notDesktop {
+    @media (max-width: ($bp-desktop - 1)) {
+      @content;
+    }
+  } @else if $size == notMobile {
+    @media (min-width: $bp-tablet) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

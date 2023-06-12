@@ -1,0 +1,16 @@
+
+// Function to get item from an array
+@function mapGet($array, $name) {
+  $key: $name;
+
+  @if type-of($name) != 'number' {
+    $key: quote($name);
+  }
+
+  @if map-has-key($array, $key) {
+    @return map-get($array, $key);
+  }
+
+  // throw error if not found
+  @error "😣 Could not find '#{$name}' in the variable array!";
+}

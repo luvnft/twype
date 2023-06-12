@@ -1,0 +1,53 @@
+.interests {
+  overflow: auto;
+  position: relative;
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: var(--size-gap) 0;
+  list-style: none;
+
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    flex: 0 0 var(--size-gap);
+  }
+}
+
+.item {
+  flex: 0 0 60px;
+  margin: 0 var(--size-half-gap);
+  text-align: center;
+
+  &:first-child {
+    margin-inline-start: 0;
+  }
+
+  &:last-child {
+    margin-inline-end: 0;
+  }
+}
+
+.interest {
+  display: block;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--color-secondary);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.active {
+  background: var(--color-hint);
+}
+
+.cover {
+  width: 60px;
+}
+
+.icon {
+  width: 100%;
+}
