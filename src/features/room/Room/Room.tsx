@@ -1,5 +1,4 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
-import { useMediaDevices } from "react-use";
 import { useEventListener, useHuddle01 } from "@huddle01/react";
 import { Audio, Video } from "@huddle01/react/components";
 import {
@@ -12,10 +11,20 @@ import {
   useRecording,
 } from "@huddle01/react/hooks";
 import { useDisplayName } from "@huddle01/react/app-utils";
+import cn from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPhoneSlash,
+  faPhone,
+  faMicrophoneLinesSlash,
+  faMicrophoneAlt,
+  faVideoCamera,
+  faVideoSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
-import styles from "./Room.module.scss";
 import { Keyboard } from "@/features/videoPopup/Keyboard/Keyboard";
 import { useUserMedia } from "../hooks/useUserMedia";
+import styles from "./Room.module.scss";
 
 type RoomProps = {
   roomId: string;
@@ -49,7 +58,17 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   } = useVideo();
   const { joinRoom, leaveRoom } = useRoom();
   const { peers } = usePeers();
-  // console.log("🚀 ~ peers:", peers);
+  console.log("🚀 ~ peers:", peers);
+
+  const gridCounter = useMemo(() => {
+    const size = Object.keys(peers).length;
+    console.log("🚀 ~ gridCounter ~ size:", size);
+    if (size > 0) {
+      return size + 1;
+    }
+    return 1;
+  }, [peers]);
+  console.log("🚀 ~ gridCounter ~ gridCounter:", gridCounter);
 
   // Event Listner
   useEventListener("lobby:cam-on", () => {
@@ -114,53 +133,78 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
 
   return (
     <div className={styles.room}>
-      <div className={styles.preview}>
-        <video ref={videoRef} autoPlay muted className={styles.video} />
-        <Keyboard
-          isVisible={true}
-          isCalling={!state.matches("Initialized.JoinedLobby")}
-          isMicOn={!produceAudio.isCallable}
-          isCameraOn={!produceVideo.isCallable}
-          callButtonText={
-            !!state.matches("Initialized.JoinedLobby")
-              ? "Join for 1$"
-              : "Leave the room"
-          }
-          onCall={handleJoinRoom}
-          onCancel={leaveRoom}
-          onToggleMic={handleToggleMic}
-          onToggleCamera={handleToggleCam}
-        />
-      </div>
+      <div className={cn(styles.grid, styles["grid-" + gridCounter])}>
+        <>
+          {Object.values(peers)
+            // .filter((peer) => peer.cam)
+            .map((peer) => (
+              <div
+                className={cn(styles.box, {
+                  [styles.boxMuted]: !peer.cam?.enabled,
+                })}
+                key={peer.peerId}
+              >
+                <div className={styles.preview}>
+                  {peer.cam?.enabled && (
+                    <Video
+                      peerId={peer.peerId}
+                      track={peer.cam}
+                      debug
+                      className={styles.video}
+                    />
+                  )}
+                  <div className={styles.user}>
+                    <div className={styles.name}>
+                      {peer.displayName} ({peer.role})
+                    </div>
+                    <div className={styles.id}>{peer.peerId}</div>
+                  </div>
+                  {!peer.mic?.enabled && (
+                    <div className={styles.muted}>
+                      <FontAwesomeIcon icon={faMicrophoneLinesSlash} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          {Object.values(peers)
+            // .filter((peer) => peer.mic)
+            .map((peer) => (
+              <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
+            ))}
+        </>
 
-      <div>
-        {Object.values(peers)
-          .filter((peer) => peer.cam)
-          .map((peer) => (
-            <div key={peer.peerId}>
-              role: {peer.role}
-              <Video
-                peerId={peer.peerId}
-                track={peer.cam}
-                debug
-                className={styles.video}
-              />
+        <div className={cn(styles.box, styles.boxMy)}>
+          <div className={styles.preview}>
+            <video ref={videoRef} autoPlay muted className={styles.video} />
+            <div className={styles.user}>
+              <div className={styles.name}>{state.context.displayName}</div>
+              <div className={styles.id}>{state.context.peerId}</div>
             </div>
-          ))}
-        {Object.values(peers)
-          .filter((peer) => peer.mic)
-          .map((peer) => (
-            <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
-          ))}
+          </div>
+        </div>
       </div>
 
-      <h2 className="text-2xl">Room State</h2>
-      <pre className="break-words">{JSON.stringify(state.value, null, 2)}</pre>
-      <h2 className="text-2xl">peerId</h2>
-      <div className="break-words">{JSON.stringify(state.context.peerId)}</div>
-      <h2 className="text-2xl">DisplayName</h2>
-      <div className="break-words">
-        {JSON.stringify(state.context.displayName)}b
+      <Keyboard
+        isVisible={true}
+        isCalling={!state.matches("Initialized.JoinedLobby")}
+        isMicOn={!produceAudio.isCallable}
+        isCameraOn={!produceVideo.isCallable}
+        callButtonText={
+          !!state.matches("Initialized.JoinedLobby")
+            ? "Join for 1$"
+            : "Leave the room"
+        }
+        onCall={handleJoinRoom}
+        onCancel={leaveRoom}
+        onToggleMic={handleToggleMic}
+        onToggleCamera={handleToggleCam}
+      />
+
+      <div className={styles.roomState}>
+        <pre className="break-words">
+          {JSON.stringify(state.value, null, 2)}
+        </pre>
       </div>
     </div>
   );
