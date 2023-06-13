@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
 import { useEventListener, useHuddle01 } from "@huddle01/react";
 import { Audio, Video } from "@huddle01/react/components";
@@ -74,37 +74,8 @@ export const HuddlePage: FC<HuddlePageProps> = () => {
     initialize(PROJECT_ID);
   }, []);
 
-  const createRoom = useCallback(async () => {
-    const dataRoom = {
-      title: "Huddle01-Test",
-    };
-
-    const roomHeaders = {
-      Accept: "*/*",
-      "Content-type": "application/json",
-      "x-api-key": apiKey,
-      // "x-api-key": apiKey,
-    };
-
-    const response = await fetch(
-      "https://api.huddle01.com/api/v1/create-room",
-      {
-        method: "POST",
-        ...dataRoom,
-        headers: roomHeaders,
-      }
-    );
-  }, []);
-
   return (
     <MainLayout>
-      {/* <MetaMaskLogin /> */}
-      {/* <Web3Login /> */}
-      <p>{isInitialized ? "isInitialized" : ":("}</p>
-      <p>
-        <button onClick={createRoom}>Create room</button>
-      </p>
-
       <div className="grid grid-cols-2">
         <div>
           <h1 className="text-6xl font-bold">

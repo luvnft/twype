@@ -2,6 +2,8 @@
   --keyboard-button-bg: rgba(#fff, 0.5);
   --keyboard-button-color: #fff;
   position: relative;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .preview {

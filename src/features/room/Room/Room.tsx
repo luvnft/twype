@@ -1,4 +1,5 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { useMediaDevices } from "react-use";
 import { useEventListener, useHuddle01 } from "@huddle01/react";
 import { Audio, Video } from "@huddle01/react/components";
 import {
@@ -14,6 +15,7 @@ import { useDisplayName } from "@huddle01/react/app-utils";
 
 import styles from "./Room.module.scss";
 import { Keyboard } from "@/features/videoPopup/Keyboard/Keyboard";
+import { useUserMedia } from "../hooks/useUserMedia";
 
 type RoomProps = {
   roomId: string;
@@ -22,6 +24,7 @@ type RoomProps = {
 const PROJECT_ID = import.meta.env.VITE_HUDDLE_PROJECT_ID;
 
 export const Room: FC<RoomProps> = ({ roomId }) => {
+  useUserMedia();
   const videoRef = useRef<HTMLVideoElement>(null);
   const { initialize, isInitialized } = useHuddle01();
   const { state, send } = useMeetingMachine();
@@ -46,7 +49,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   } = useVideo();
   const { joinRoom, leaveRoom } = useRoom();
   const { peers } = usePeers();
-  console.log("🚀 ~ peers:", peers);
+  // console.log("🚀 ~ peers:", peers);
 
   // Event Listner
   useEventListener("lobby:cam-on", () => {
@@ -82,27 +85,23 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   }, []);
 
   const handleToggleCam = () => {
-    if (!fetchVideoStream.isCallable) {
-      stopVideoStream();
+    if (!produceVideo.isCallable) {
+      stopProducingVideo();
     } else {
-      fetchVideoStream();
+      produceVideo(camStream);
     }
   };
 
   const handleToggleMic = () => {
-    if (!fetchAudioStream.isCallable) {
-      stopAudioStream();
+    if (!produceAudio.isCallable) {
+      stopProducingAudio();
     } else {
-      fetchAudioStream();
+      produceAudio(micStream);
     }
   };
 
   const handleJoinRoom = () => {
     joinRoom();
-    setTimeout(() => {
-      produceVideo(camStream);
-      produceAudio(micStream);
-    }, 3000);
   };
 
   if (lobbyStatus === "JoiningLobby") {
@@ -120,9 +119,13 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
         <Keyboard
           isVisible={true}
           isCalling={!state.matches("Initialized.JoinedLobby")}
-          isMicOn={!fetchAudioStream.isCallable}
-          isCameraOn={!fetchVideoStream.isCallable}
-          callButtonText="Join for 1$"
+          isMicOn={!produceAudio.isCallable}
+          isCameraOn={!produceVideo.isCallable}
+          callButtonText={
+            !!state.matches("Initialized.JoinedLobby")
+              ? "Join for 1$"
+              : "Leave the room"
+          }
           onCall={handleJoinRoom}
           onCancel={leaveRoom}
           onToggleMic={handleToggleMic}
@@ -130,22 +133,22 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
         />
       </div>
 
-      <div className="grid grid-cols-4">
+      <div>
         {Object.values(peers)
-          // .filter((peer) => peer.cam)
+          .filter((peer) => peer.cam)
           .map((peer) => (
-            <>
+            <div key={peer.peerId}>
               role: {peer.role}
               <Video
-                key={peer.peerId}
                 peerId={peer.peerId}
                 track={peer.cam}
                 debug
+                className={styles.video}
               />
-            </>
+            </div>
           ))}
         {Object.values(peers)
-          // .filter((peer) => peer.mic)
+          .filter((peer) => peer.mic)
           .map((peer) => (
             <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
           ))}
@@ -157,7 +160,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
       <div className="break-words">{JSON.stringify(state.context.peerId)}</div>
       <h2 className="text-2xl">DisplayName</h2>
       <div className="break-words">
-        {JSON.stringify(state.context.displayName)}
+        {JSON.stringify(state.context.displayName)}b
       </div>
     </div>
   );
