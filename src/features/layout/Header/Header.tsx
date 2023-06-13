@@ -8,7 +8,9 @@ type HeaderProps = {};
 
 export const Header: FC<HeaderProps> = () => {
   const user = {
-    photoUrl: `${import.meta.env.VITE_SITE_URL}/user/user-photo.jpg`,
+    photoUrl: `${
+      import.meta.env.VITE_SITE_URL || "https://twype.com"
+    }/user/user-photo.jpg`,
     balance: 14.2,
   };
 
