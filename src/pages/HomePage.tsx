@@ -8,8 +8,8 @@ export const HomePage: FC<HomePageProps> = () => {
   return (
     <MainLayout>
       <div>HomePage</div>
+      <Link to="rooms/dlf-pkdb-mjf">DEV ROOM</Link>
       <Link to="catalog">Catalog</Link>
-      <Link to="huddle">Huddle01</Link>
     </MainLayout>
   );
 };
