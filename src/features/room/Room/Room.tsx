@@ -21,6 +21,7 @@ import {
   faVideoCamera,
   faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import Avatar, { genConfig } from "react-nice-avatar";
 
 import { Keyboard } from "@/features/videoPopup/Keyboard/Keyboard";
 import { useUserMedia } from "../hooks/useUserMedia";
@@ -32,13 +33,15 @@ type RoomProps = {
 
 const PROJECT_ID = import.meta.env.VITE_HUDDLE_PROJECT_ID;
 
+const avatarConfig = genConfig({ sex: "man", hairStyle: "mohawk" });
+
 export const Room: FC<RoomProps> = ({ roomId }) => {
   useUserMedia();
   const videoRef = useRef<HTMLVideoElement>(null);
   const { initialize, isInitialized } = useHuddle01();
   const { state, send } = useMeetingMachine();
   // console.log("🚀 ~ state:", state);
-  const { joinLobby, error: lobbyError } = useLobby();
+  const { joinLobby, leaveLobby, error: lobbyError } = useLobby();
   // console.log("🚀 ~ lobbyError:", lobbyError);
   const [userName, setUserName] = useState("");
   const { setDisplayName, error: displayNameError } = useDisplayName();
@@ -58,17 +61,15 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   } = useVideo();
   const { joinRoom, leaveRoom } = useRoom();
   const { peers } = usePeers();
-  console.log("🚀 ~ peers:", peers);
+  // console.log("🚀 ~ peers:", peers);
 
   const gridCounter = useMemo(() => {
     const size = Object.keys(peers).length;
-    console.log("🚀 ~ gridCounter ~ size:", size);
     if (size > 0) {
       return size + 1;
     }
     return 1;
   }, [peers]);
-  console.log("🚀 ~ gridCounter ~ gridCounter:", gridCounter);
 
   // Event Listner
   useEventListener("lobby:cam-on", () => {
@@ -119,8 +120,17 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
     }
   };
 
+  const handleLeaveRoom = () => {
+    leaveRoom();
+    leaveLobby();
+  };
+
   const handleJoinRoom = () => {
-    joinRoom();
+    if (state.matches("Initialized.JoinedLobby")) {
+      joinRoom();
+      return;
+    }
+    handleLeaveRoom();
   };
 
   if (lobbyStatus === "JoiningLobby") {
@@ -154,10 +164,14 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
                     />
                   )}
                   <div className={styles.user}>
+                    {!peer.cam?.enabled && (
+                      <div className={styles.userpic}>
+                        <Avatar className={styles.avatar} {...avatarConfig} />
+                      </div>
+                    )}
                     <div className={styles.name}>
                       {peer.displayName} ({peer.role})
                     </div>
-                    <div className={styles.id}>{peer.peerId}</div>
                   </div>
                   {!peer.mic?.enabled && (
                     <div className={styles.muted}>
@@ -179,7 +193,6 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
             <video ref={videoRef} autoPlay muted className={styles.video} />
             <div className={styles.user}>
               <div className={styles.name}>{state.context.displayName}</div>
-              <div className={styles.id}>{state.context.peerId}</div>
             </div>
           </div>
         </div>
@@ -196,7 +209,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
             : "Leave the room"
         }
         onCall={handleJoinRoom}
-        onCancel={leaveRoom}
+        onCancel={handleLeaveRoom}
         onToggleMic={handleToggleMic}
         onToggleCamera={handleToggleCam}
       />
@@ -206,6 +219,8 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
           {JSON.stringify(state.value, null, 2)}
         </pre>
       </div>
+
+      <div className={styles.brand}>Twipe</div>
     </div>
   );
 };

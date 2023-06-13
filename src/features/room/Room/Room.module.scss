@@ -12,6 +12,8 @@
   position: absolute;
   inset: 0;
   display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
 
   &-1 {
     grid-template-columns: 1fr;
@@ -82,12 +84,29 @@
   }
 }
 
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 8px;
+}
+
 .muted {
   position: absolute;
   bottom: 16px;
   left: 16px;
   font-size: 24px;
   color: var(--color-danger);
+}
+
+.brand {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 32px;
+  color: #fff;
+  font-family: "Righteous", cursive;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .roomState {

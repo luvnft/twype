@@ -44,6 +44,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-nice-avatar:
+    specifier: ^1.4.1
+    version: 1.4.1(react@18.2.0)
   react-router-dom:
     specifier: ^6.12.1
     version: 6.12.1(react-dom@18.2.0)(react@18.2.0)
@@ -1045,6 +1048,10 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /chroma-js@2.4.2:
+    resolution: {integrity: sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==}
+    dev: false
+
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
@@ -1713,6 +1720,17 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: false
+
+  /react-nice-avatar@1.4.1(react@18.2.0):
+    resolution: {integrity: sha512-IKC51UTBbPm7rVsFNCiSEs/oP7W2/scod7/s8xCxqF/yMGS+Xs5HDAVxpyTEwv2iCYVoBq8H/E8SnbqwnWvupA==}
+    peerDependencies:
+      react: '>=16.0.0'
+    dependencies:
+      '@babel/runtime': 7.22.5
+      chroma-js: 2.4.2
+      prop-types: 15.8.1
+      react: 18.2.0
     dev: false
 
   /react-refresh@0.14.0:
