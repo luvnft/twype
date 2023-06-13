@@ -6,7 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { HomePage } from "@/pages/HomePage";
-import { CatalogPage } from "@/pages/CatalogPage";
+// import { CatalogPage } from "@/pages/CatalogPage";
 // import { LivePeerPage } from "@/pages/LivePeerPage";
 import { HuddlePage } from "@/pages/HuddlePage";
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route index element={<HomePage />} />
-      <Route path="catalog" element={<CatalogPage />} />
+      {/* <Route path="catalog" element={<CatalogPage />} /> */}
 
       <Route path="rooms">
         <Route index element={<RoomsListPage />} />

@@ -10,3 +10,11 @@ Start dev server
 ```
 pnpm run dev
 ```
+
+
+## Deploy to Surge
+
+```
+pnpm run build
+surge dist twype.com
+```
