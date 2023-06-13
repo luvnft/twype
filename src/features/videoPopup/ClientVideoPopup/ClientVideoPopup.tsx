@@ -2,8 +2,8 @@ import { FC, ReactElement } from "react";
 import { LocalVideoTrack } from "livekit-client";
 import { VideoRenderer } from "@livekit/react-core";
 import cn from "classnames";
-import { Avatar } from "@/ui/Avatar/Avatar";
-import photoUrl from "@/assets/photos/user-photo.jpg";
+// import { Avatar } from "@/ui/Avatar/Avatar";
+// import photoUrl from "@/assets/photos/user-photo.jpg";
 import styles from "./ClientVideoPopup.module.scss";
 
 type ClientVideoPopupProps = {
@@ -35,7 +35,7 @@ export const ClientVideoPopup: FC<ClientVideoPopupProps> = ({
         <div className={styles.video}>{videoElement}</div>
       ) : (
         <div className={styles.avatar}>
-          <Avatar photoUrl={photoUrl} />
+          {/* <Avatar photoUrl={photoUrl} /> */}
         </div>
       )}
     </div>

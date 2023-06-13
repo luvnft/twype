@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useRef } from "react";
-import movie from "@/assets/video/movie.webm";
-import poster from "@/assets/video/poster.png";
+// import movie from "@/assets/video/movie.webm";
+// import poster from "@/assets/video/poster.png";
 import styles from "./FakeVideo.module.scss";
 
 type FakeVideoProps = {
@@ -20,8 +20,8 @@ export const FakeVideo: FC<FakeVideoProps> = ({ isCalling = false }) => {
 
   return (
     <video
-      src={movie}
-      poster={poster}
+      // src={movie}
+      // poster={poster}
       muted
       loop
       className={styles.video}

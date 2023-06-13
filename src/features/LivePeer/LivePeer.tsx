@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Player } from "@livepeer/react";
-import poster from "@/assets/video/poster.png";
+// import poster from "@/assets/video/poster.png";
 // import styles from "./LivePeer.module.scss";
 
 type LivePeerProps = {};
@@ -12,7 +12,7 @@ export const LivePeer: FC<LivePeerProps> = () => {
     <Player
       title="Waterfalls"
       playbackId={playbackId}
-      poster={<img src={poster} />}
+      // poster={<img src={poster} />}
     />
   );
 };
