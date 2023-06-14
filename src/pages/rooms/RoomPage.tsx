@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
+import { AuthProtector } from "@/features/auth/AuthProtector/AuthProtector";
 import { Room } from "@/features/room/Room/Room";
 
 type RoomPageProps = {};
@@ -12,7 +13,9 @@ export const RoomPage: FC<RoomPageProps> = () => {
 
   return (
     <MainLayout>
-      <Room roomId={roomId} />
+      <AuthProtector>
+        <Room roomId={roomId} />
+      </AuthProtector>
     </MainLayout>
   );
 };

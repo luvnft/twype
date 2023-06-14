@@ -130,6 +130,10 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
       joinRoom();
       return;
     }
+    stopProducingVideo();
+    stopVideoStream();
+    stopProducingAudio();
+    stopAudioStream();
     handleLeaveRoom();
   };
 
