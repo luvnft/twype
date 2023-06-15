@@ -129,3 +129,13 @@
     transform: translateX(0);
   }
 }
+
+.controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

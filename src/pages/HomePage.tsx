@@ -8,7 +8,12 @@ export const HomePage: FC<HomePageProps> = () => {
   return (
     <MainLayout>
       <div>HomePage</div>
-      <Link to="rooms/dlf-pkdb-mjf">DEV ROOM</Link>
+      <p>
+        <Link to="rooms/dlf-pkdb-mjf">DEV ROOM</Link>
+      </p>
+      {/* <p>
+        <Link to="huddle">Huddle</Link>
+      </p> */}
       {/* <Link to="catalog">Catalog</Link> */}
     </MainLayout>
   );

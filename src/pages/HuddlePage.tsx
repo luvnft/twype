@@ -46,7 +46,7 @@ export const HuddlePage: FC<HuddlePageProps> = () => {
   } = useVideo();
   const { joinRoom, leaveRoom } = useRoom();
 
-  // Event Listner
+  // Event Listener
   useEventListener("lobby:cam-on", () => {
     if (camStream && videoRef.current) videoRef.current.srcObject = camStream;
   });

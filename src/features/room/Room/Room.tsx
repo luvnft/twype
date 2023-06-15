@@ -71,7 +71,6 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
     return 1;
   }, [peers]);
 
-  // Event Listner
   useEventListener("lobby:cam-on", () => {
     if (camStream && videoRef.current) videoRef.current.srcObject = camStream;
   });
@@ -186,7 +185,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
               </div>
             ))}
           {Object.values(peers)
-            // .filter((peer) => peer.mic)
+            .filter((peer) => peer.mic)
             .map((peer) => (
               <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
             ))}
@@ -225,6 +224,40 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
       </div>
 
       <div className={styles.brand}>Twipe</div>
+
+      {/* <div className={styles.controls}>
+        <button onClick={() => joinLobby(roomId)}>joinLobby</button>
+        <button onClick={() => setDisplayName("techmeat")}>
+          setDisplayName
+        </button>
+        <button onClick={() => fetchVideoStream()}>fetchVideoStream</button>
+        <button onClick={() => fetchAudioStream()}>fetchAudioStream</button>
+        <button onClick={() => joinRoom()}>joinRoom</button>
+        <button
+          onClick={() => produceVideo(camStream)}
+          disabled={!!stopProducingVideo.isCallable}
+        >
+          produceVideo
+        </button>
+        <button
+          onClick={() => stopProducingVideo()}
+          disabled={!stopProducingVideo.isCallable}
+        >
+          stopProducingVideo
+        </button>
+        <button
+          onClick={() => produceAudio(micStream)}
+          disabled={!!stopProducingAudio.isCallable}
+        >
+          produceAudio
+        </button>
+        <button
+          onClick={() => stopProducingAudio()}
+          disabled={!stopProducingAudio.isCallable}
+        >
+          stopProducingAudio
+        </button>
+      </div> */}
     </div>
   );
 };
