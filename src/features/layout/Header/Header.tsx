@@ -1,9 +1,10 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import cn from "classnames";
+// import cn from "classnames";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { Nav } from "../Nav/Nav";
 import { Avatar } from "@/ui/Avatar/Avatar";
+import { Button } from "@/features/form/Button/Button";
 import styles from "./Header.module.scss";
 
 type HeaderProps = {};
@@ -45,7 +46,7 @@ export const Header: FC<HeaderProps> = () => {
             </div>
           ) : (
             <div>
-              <button onClick={() => auth.signIn()}>Sign In</button>
+              <Button onClick={() => auth.signIn()}>Sign In</Button>
             </div>
           )}
         </div>

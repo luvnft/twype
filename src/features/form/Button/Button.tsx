@@ -1,4 +1,5 @@
 import { FC, ReactNode, useMemo } from "react";
+import { Link } from "react-router-dom";
 import cn from "classnames";
 import styles from "./Button.module.scss";
 
@@ -13,6 +14,8 @@ type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;
+  href?: string;
+  to?: string;
   color?:
     | "primary"
     | "accent"
@@ -37,6 +40,8 @@ export const Button: FC<ButtonProps> = ({
   loading = false,
   external = false,
   fullWidth = false,
+  href,
+  to,
   color,
   className,
   children,
@@ -70,6 +75,27 @@ export const Button: FC<ButtonProps> = ({
       className,
     ]
   );
+
+  if (href) {
+    return (
+      <a
+        className={classes}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  }
+
+  if (to) {
+    return (
+      <Link className={classes} to={to}>
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <button

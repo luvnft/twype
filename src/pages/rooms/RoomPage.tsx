@@ -1,10 +1,11 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
 import { Content } from "@/features/layout/Content/Content";
 import { RoomInfo } from "@/features/room/RoomInfo/RoomInfo";
 import { Room, RoomError } from "@/features/room/types";
+import { Button } from "@/features/form/Button/Button";
 
 type RoomPageProps = {};
 
@@ -52,6 +53,8 @@ export const RoomPage: FC<RoomPageProps> = () => {
     return roomInfo?.title || "Unnamed Room";
   }, [isLoading, roomError, roomInfo]);
 
+  if (!roomId) return null;
+
   return (
     <MainLayout>
       <Content title={pageTitle}>
@@ -61,7 +64,7 @@ export const RoomPage: FC<RoomPageProps> = () => {
           <div>
             <p>{roomError.message}</p>
             <p>
-              <Link to="..">Back to Rooms list</Link>
+              <Button to="..">Back to Rooms list</Button>
             </p>
           </div>
         )}

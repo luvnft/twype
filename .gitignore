@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 
 .env.local
-assets
 public/user
 public/interests
 public/catalogue
