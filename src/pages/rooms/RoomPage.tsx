@@ -13,6 +13,7 @@ export const RoomPage: FC<RoomPageProps> = () => {
   let { roomId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [roomInfo, setRoomInfo] = useState<Room | null>(null);
+  console.log("🚀 ~ roomInfo:", roomInfo);
   const [roomError, setRoomError] = useState<RoomError | null>(null);
 
   const getMeetingInfo = useCallback(async () => {
@@ -59,7 +60,15 @@ export const RoomPage: FC<RoomPageProps> = () => {
     <MainLayout>
       <Content title={pageTitle}>
         {!roomError ? (
-          !isLoading && roomInfo && <RoomInfo data={roomInfo} />
+          !isLoading && (
+            <>
+              {roomInfo ? (
+                <RoomInfo data={roomInfo} />
+              ) : (
+                <Button to="join">Try to join</Button>
+              )}
+            </>
+          )
         ) : (
           <div>
             <p>{roomError.message}</p>
