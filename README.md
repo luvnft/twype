@@ -1,11 +1,11 @@
-https://docs.livekit.io/getting-started/cli-setup/
-Start Media Server
+## Install project
+
 ```
-livekit-server --dev
-``
+pnpm install
+```
 
 
-Start dev server
+## Start dev server
 
 ```
 pnpm run dev
