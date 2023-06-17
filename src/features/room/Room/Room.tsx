@@ -76,7 +76,6 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   const isJoinedToRoom = useMemo(() => {
     return state.matches("Initialized.JoinedRoom");
   }, [state?.value]);
-  console.log("🚀 ~ isJoinedToRoom ~ isJoinedToRoom:", isJoinedToRoom);
 
   useEffect(() => {
     if (roomStatus?.JoinedLobby && !userName) {

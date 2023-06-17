@@ -11,6 +11,7 @@ import { HomePage } from "@/pages/HomePage";
 import { HuddlePage } from "@/pages/HuddlePage";
 
 import { RoomPage } from "@/pages/rooms/RoomPage";
+import { RoomPageJoin } from "@/pages/rooms/RoomPageJoin";
 import { RoomsListPage } from "./pages/rooms/RoomsListPage";
 import { RoomCreatePage } from "./pages/rooms/RoomCreatePage";
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
         <Route index element={<RoomsListPage />} />
         <Route path="create" element={<RoomCreatePage />} />
         <Route path=":roomId" element={<RoomPage />} />
+        <Route path=":roomId/join" element={<RoomPageJoin />} />
       </Route>
 
       {/* <Route path="peer" element={<LivePeerPage />} /> */}

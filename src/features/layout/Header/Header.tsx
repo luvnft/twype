@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import cn from "classnames";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { Nav } from "../Nav/Nav";
 import { Avatar } from "@/ui/Avatar/Avatar";
 import styles from "./Header.module.scss";
 
@@ -24,18 +25,20 @@ export const Header: FC<HeaderProps> = () => {
         <span className={styles.domain}>.com</span>
       </Link>
 
+      <Nav />
+
       {!authLoading && !isAuthLoading && (
         <div className={styles.auth}>
           {isLoggedIn ? (
             <div className={styles.user}>
-              <span
+              {/* <span
                 className={cn(
                   styles.balance,
                   user?.balance > 10 ? styles.positive : styles.negative
                 )}
               >
                 ${user.balance}
-              </span>
+              </span> */}
               <button className={styles.logout} onClick={() => auth.signOut()}>
                 <Avatar photoUrl={user.photoUrl} />
               </button>
