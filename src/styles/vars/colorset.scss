@@ -5,7 +5,7 @@
   --color-text: var(--color-primary);
   --color-secondary: #333;
   --color-tertiary: #777;
-  --color-border: #eee;
+  --color-border: var(--color-tertiary);
   --color-hint: #dadada;
   --color-link: #22d;
   --color-success: #36b555;

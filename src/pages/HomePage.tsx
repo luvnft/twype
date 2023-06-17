@@ -11,6 +11,9 @@ export const HomePage: FC<HomePageProps> = () => {
       <p>
         <Link to="rooms/dlf-pkdb-mjf">DEV ROOM</Link>
       </p>
+      <p>
+        <Link to="rooms/uyy-ofwe-wup">TOken Gated DEV ROOM</Link>
+      </p>
       {/* <p>
         <Link to="huddle">Huddle</Link>
       </p> */}

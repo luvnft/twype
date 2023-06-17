@@ -1,0 +1,252 @@
+.button {
+  --button-size: var(--ui-button-size, 32px);
+  --button-size-small: var(--ui-button-size-small, 24px);
+  --button-width: var(--ui-button-width, auto);
+  --button-padding: var(--ui-button-padding, var(--size-gap));
+  --button-radius: var(--ui-button-radius, 4px);
+  --button-background: var(--ui-button-background, var(--color-info));
+  --button-background-hover: var(
+    --ui-button-background-hover,
+    var(--color-secondary)
+  );
+  --button-background-active: var(
+    --ui-button-background-active,
+    var(--color-primary-75)
+  );
+  --button-color: var(--ui-button-color, var(--color-common));
+  --button-font-size: var(--ui-button-font-size, var(--font-m));
+  --button-outline: transparent;
+  --ui-spinner-color: var(--button-color);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-xxs);
+  position: relative;
+  width: var(--button-width);
+  height: var(--button-size);
+  padding: 0 var(--button-padding);
+  border-radius: var(--button-radius);
+  border: none;
+  background: var(--button-background);
+  color: var(--button-color);
+  font-family: inherit;
+  font-size: var(--button-font-size);
+  font-weight: var(--ui-button-font-weight, var(--font-semibold));
+  line-height: 1;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+  outline-color: transparent;
+  outline-offset: 1px;
+  vertical-align: middle;
+  transition: background 0.25s, outline-color 0.25s;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-link-80);
+  }
+
+  &:disabled {
+    background: var(--color-tertiary);
+    cursor: not-allowed;
+  }
+}
+
+.outlined {
+  --ui-spinner-color: var(--button-background);
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}
+
+$colors: "primary", "accent", "success", "warning", "danger", "info", "link";
+@each $color in $colors {
+  .#{$color} {
+    --button-background: var(--ui-button-background, var(--color-#{$color}));
+
+    &:not(.outlined) {
+      color: var(--button-color);
+
+      &:hover {
+        --button-background: var(
+          --ui-button-background-hover,
+          var(--color-#{$color})
+        );
+        color: var(--button-color);
+      }
+
+      &:focus {
+        --button-background: var(
+          --ui-button-background,
+          var(--color-#{$color})
+        );
+      }
+
+      &:active {
+        --button-background: var(
+          --ui-button-background-active,
+          var(--color-#{$color})
+        );
+      }
+
+      &:disabled {
+        --button-background: var(
+          --ui-button-background-active,
+          var(--color-#{$color})
+        );
+        cursor: not-allowed;
+
+        &.loading {
+          --button-background: var(
+            --ui-button-background,
+            var(--color-#{$color})
+          );
+        }
+      }
+    }
+
+    &.outlined {
+      background: none;
+      border: 1px solid var(--button-background);
+
+      &,
+      &:hover,
+      &:focus,
+      &:active {
+        color: var(--button-background);
+      }
+
+      &:hover {
+        background: var(--ui-button-background-hover, var(--color-#{$color}));
+      }
+
+      &:disabled {
+        --button-background: var(
+          --ui-button-background-active,
+          var(--color-#{$color})
+        );
+        background: none;
+        cursor: not-allowed;
+
+        &.loading {
+          --button-background: var(
+            --ui-button-background,
+            var(--color-#{$color})
+          );
+        }
+      }
+    }
+  }
+}
+
+.secondary {
+  --button-background: var(--color-primary);
+  --ui-spinner-color: var(--color-primary);
+  color: var(--color-primary);
+
+  &:not(.outlined) {
+    &:hover {
+      --button-background: var(
+        --ui-button-background-hover,
+        var(--color-primary)
+      );
+    }
+
+    &:focus {
+      --button-background: var(
+        --ui-button-background-focus,
+        var(--color-secondary)
+      );
+    }
+
+    &:active {
+      --button-background: var(
+        --ui-button-background-active,
+        var(--color-tertiary)
+      );
+    }
+
+    &:disabled {
+      --button-background: var(
+        --ui-button-background-active,
+        var(--color-primary-5)
+      );
+      color: var(--color-tertiary);
+      cursor: not-allowed;
+    }
+  }
+
+  &.outlined {
+    background: none;
+    border: 1px solid var(--button-background);
+    color: var(--color-primary);
+
+    &:hover {
+      background: var(--ui-button-background-hover, var(--color-primary-5));
+    }
+
+    &:disabled {
+      --button-background: var(
+        --ui-button-background-active,
+        var(--color-tertiary)
+      );
+      color: var(--color-tertiary);
+      background: none;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.clear {
+  background: none;
+  color: var(--ui-button-color, --color-text) !important;
+  font-weight: inherit;
+  --ui-spinner-color: initial;
+}
+
+.compact {
+  height: auto;
+  padding: var(--size-xxxs);
+}
+
+.rounded {
+  border-radius: var(--button-size);
+}
+
+.icon {
+  width: var(--button-size);
+  padding: 0;
+}
+
+.small {
+  height: var(--button-size-small);
+  font-size: var(--size-ss);
+  font-weight: 400;
+
+  &.icon {
+    width: var(--button-size-small);
+  }
+}
+
+.loading {
+  &,
+  &.outlined,
+  &.secondary:disabled {
+    color: transparent !important;
+    cursor: progress !important;
+  }
+}
+
+.spinner {
+  --ui-spinner-size: 16px;
+  display: flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .button & {
+    position: absolute;
+  }
+}
