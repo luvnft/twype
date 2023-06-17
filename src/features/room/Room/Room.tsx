@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
-import { useEventListener, useHuddle01 } from "@huddle01/react";
-import { Audio, Video } from "@huddle01/react/components";
+import { Link } from "react-router-dom";
+import { useHuddle01 } from "@huddle01/react";
 import {
   useAudio,
   useLobby,
@@ -12,19 +12,11 @@ import {
 } from "@huddle01/react/hooks";
 import { useDisplayName } from "@huddle01/react/app-utils";
 import cn from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPhoneSlash,
-  faPhone,
-  faMicrophoneLinesSlash,
-  faMicrophoneAlt,
-  faVideoCamera,
-  faVideoSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import Avatar, { genConfig } from "react-nice-avatar";
 
 import { Keyboard } from "@/features/videoPopup/Keyboard/Keyboard";
 import { useUserMedia } from "../hooks/useUserMedia";
+import { PeerBox } from "../PeerBox/PeerBox";
+import { PeerBoxMy } from "../PeerBox/PeerBoxMy";
 import styles from "./Room.module.scss";
 
 type RoomProps = {
@@ -33,16 +25,12 @@ type RoomProps = {
 
 const PROJECT_ID = import.meta.env.VITE_HUDDLE_PROJECT_ID;
 
-const avatarConfig = genConfig({ sex: "man", hairStyle: "mohawk" });
-
 export const Room: FC<RoomProps> = ({ roomId }) => {
   useUserMedia();
-  const videoRef = useRef<HTMLVideoElement>(null);
   const { initialize, isInitialized } = useHuddle01();
+  const [activePeer, setActivePeer] = useState<string | null>(null);
   const { state, send } = useMeetingMachine();
-  // console.log("🚀 ~ state:", state);
   const { joinLobby, leaveLobby, error: lobbyError } = useLobby();
-  // console.log("🚀 ~ lobbyError:", lobbyError);
   const [userName, setUserName] = useState("");
   const { setDisplayName, error: displayNameError } = useDisplayName();
   const {
@@ -61,7 +49,6 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   } = useVideo();
   const { joinRoom, leaveRoom } = useRoom();
   const { peers } = usePeers();
-  // console.log("🚀 ~ peers:", peers);
 
   const gridCounter = useMemo(() => {
     const size = Object.keys(peers).length;
@@ -70,10 +57,6 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
     }
     return 1;
   }, [peers]);
-
-  useEventListener("lobby:cam-on", () => {
-    if (camStream && videoRef.current) videoRef.current.srcObject = camStream;
-  });
 
   useEffect(() => {
     initialize(PROJECT_ID);
@@ -85,23 +68,24 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
     }
   }, [isInitialized]);
 
-  const lobbyStatus = useMemo(() => {
+  const roomStatus = useMemo(() => {
     // @ts-ignore
     return state?.value?.Initialized;
   }, [state?.value]);
 
+  const isJoinedToRoom = useMemo(() => {
+    return state.matches("Initialized.JoinedRoom");
+  }, [state?.value]);
+  console.log("🚀 ~ isJoinedToRoom ~ isJoinedToRoom:", isJoinedToRoom);
+
   useEffect(() => {
-    if (lobbyStatus?.JoinedLobby && !userName) {
+    if (roomStatus?.JoinedLobby && !userName) {
       setDisplayName("techmeat");
       setUserName("techmeat");
       fetchVideoStream();
       fetchAudioStream();
     }
-  }, [lobbyStatus]);
-
-  useEffect(() => {
-    return send("LEAVE_LOBBY");
-  }, []);
+  }, [roomStatus]);
 
   const handleToggleCam = () => {
     if (!produceVideo.isCallable) {
@@ -122,10 +106,15 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   const handleLeaveRoom = () => {
     leaveRoom();
     leaveLobby();
+    send("LEAVE_LOBBY");
   };
 
+  useEffect(() => {
+    return handleLeaveRoom();
+  }, []);
+
   const handleJoinRoom = () => {
-    if (state.matches("Initialized.JoinedLobby")) {
+    if (!isJoinedToRoom) {
       joinRoom();
       return;
     }
@@ -136,81 +125,54 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
     handleLeaveRoom();
   };
 
-  if (lobbyStatus === "JoiningLobby") {
+  const handlePeerBoxClick = (id: string) => {
+    setActivePeer(activePeer === id ? null : id);
+  };
+
+  if (roomStatus === "JoiningLobby") {
     return <div>...connecting</div>;
   }
 
-  if (!lobbyStatus || lobbyStatus === "JoinLobbyFailed") {
+  if (!roomStatus || roomStatus === "JoinLobbyFailed") {
     return <div>JoinLobbyFailed</div>;
   }
 
   return (
     <div className={styles.room}>
-      <div className={cn(styles.grid, styles["grid-" + gridCounter])}>
-        <>
-          {Object.values(peers)
-            // .filter((peer) => peer.cam)
-            .map((peer) => (
-              <div
-                className={cn(styles.box, {
-                  [styles.boxMuted]: !peer.cam?.enabled,
-                })}
-                key={peer.peerId}
-              >
-                <div className={styles.preview}>
-                  {peer.cam?.enabled && (
-                    <Video
-                      peerId={peer.peerId}
-                      track={peer.cam}
-                      debug
-                      className={styles.video}
-                    />
-                  )}
-                  <div className={styles.user}>
-                    {!peer.cam?.enabled && (
-                      <div className={styles.userpic}>
-                        <Avatar className={styles.avatar} {...avatarConfig} />
-                      </div>
-                    )}
-                    <div className={styles.name}>
-                      {peer.displayName} ({peer.role})
-                    </div>
-                  </div>
-                  {!peer.mic?.enabled && (
-                    <div className={styles.muted}>
-                      <FontAwesomeIcon icon={faMicrophoneLinesSlash} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          {Object.values(peers)
-            .filter((peer) => peer.mic)
-            .map((peer) => (
-              <Audio key={peer.peerId} peerId={peer.peerId} track={peer.mic} />
-            ))}
-        </>
-
-        <div className={cn(styles.box, styles.boxMy)}>
-          <div className={styles.preview}>
-            <video ref={videoRef} autoPlay muted className={styles.video} />
-            <div className={styles.user}>
-              <div className={styles.name}>{state.context.displayName}</div>
-            </div>
+      <div
+        className={cn(styles.grid, styles["grid-" + gridCounter], {
+          [styles.hasActive]: activePeer,
+        })}
+        data-peers={gridCounter}
+      >
+        {Object.values(peers).map((peer) => (
+          <div className={styles.cell} key={peer.peerId}>
+            <PeerBox
+              id={peer.peerId}
+              role={peer.role}
+              mic={peer.mic}
+              cam={peer.cam}
+              displayName={peer.displayName}
+              isActive={activePeer === peer.peerId}
+              onClick={handlePeerBoxClick}
+            />
           </div>
+        ))}
+
+        <div className={styles.cell}>
+          <PeerBoxMy
+            displayName={state.context.displayName}
+            camStream={camStream}
+          />
         </div>
       </div>
 
       <Keyboard
         isVisible={true}
-        isCalling={!state.matches("Initialized.JoinedLobby")}
+        isCalling={isJoinedToRoom}
         isMicOn={!produceAudio.isCallable}
         isCameraOn={!produceVideo.isCallable}
-        callButtonText={
-          !!state.matches("Initialized.JoinedLobby")
-            ? "Join for 1$"
-            : "Leave the room"
-        }
+        callButtonText={!isJoinedToRoom ? "Join for 1$" : "Leave the room"}
         onCall={handleJoinRoom}
         onCancel={handleLeaveRoom}
         onToggleMic={handleToggleMic}
@@ -223,7 +185,9 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
         </pre>
       </div>
 
-      <div className={styles.brand}>Twipe</div>
+      <Link to="/" className={styles.brand}>
+        Twipe
+      </Link>
 
       {/* <div className={styles.controls}>
         <button onClick={() => joinLobby(roomId)}>joinLobby</button>

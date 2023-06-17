@@ -16,5 +16,5 @@ pnpm run dev
 
 ```
 pnpm run build
-surge dist twype.com
+surge dist twype.surge.sh
 ```
