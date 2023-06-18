@@ -16,13 +16,13 @@ export const RoomsListPage: FC<RoomsListPageProps> = () => {
       <br />
       <Content title="Available Rooms" size="small">
         <RoomBanner
-          to="dlf-pkdb-mjf"
+          to={`/rooms/${import.meta.env.VITE_HUDDLE_DEV_ROOM}`}
           title="Dev Room"
           posterUrl={roomPosterUrl}
         />
         <br />
         <RoomBanner
-          to="uyy-ofwe-wup"
+          to={`/rooms/${import.meta.env.VITE_HUDDLE_DEV_ROOM_TG}`}
           title="Token Gated Dev Room"
           posterUrl={roomNftPosterUrl}
         />

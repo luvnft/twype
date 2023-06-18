@@ -15,13 +15,13 @@ export const HomePage: FC<HomePageProps> = () => {
       <br />
       <Content title="Popular Rooms" size="small">
         <RoomBanner
-          to="/rooms/dlf-pkdb-mjf"
+          to={`/rooms/${import.meta.env.VITE_HUDDLE_DEV_ROOM}`}
           title="Dev Room"
           posterUrl={roomPosterUrl}
         />
         <br />
         <RoomBanner
-          to="/rooms/uyy-ofwe-wup"
+          to={`/rooms/${import.meta.env.VITE_HUDDLE_DEV_ROOM_TG}`}
           title="Token Gated Dev Room"
           posterUrl={roomNftPosterUrl}
         />

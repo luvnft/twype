@@ -43,12 +43,12 @@ export const CreateRoomForm: FC<CreateRoomFormProps> = () => {
     setIsLoading(true);
     const requestConfig =
       !contractAddress || roomType !== RoomType.TOKEN_GATED_ROOM
-        ? {
+        ? {}
+        : {
             tokenType: tokenType,
             chain: chain,
             contractAddress: [contractAddress],
-          }
-        : {};
+          };
 
     const response = await axios.post(
       "https://api.huddle01.com/api/v1/create-room",

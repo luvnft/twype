@@ -31,6 +31,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   const { userName } = useUserName();
   const { initialize, isInitialized } = useHuddle01();
   const [activePeer, setActivePeer] = useState<string | null>(null);
+  const [wasJoined, setWasJoined] = useState(false);
   const { state, send } = useMeetingMachine();
   const { joinLobby, leaveLobby, error: lobbyError } = useLobby();
   const { setDisplayName, error: displayNameError } = useDisplayName();
@@ -79,10 +80,11 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   }, [state?.value]);
 
   useEffect(() => {
-    if (roomStatus?.JoinedLobby && !userName) {
+    if (roomStatus?.JoinedLobby && !wasJoined) {
       setDisplayName(userName);
       fetchVideoStream();
       fetchAudioStream();
+      setWasJoined(true);
     }
   }, [roomStatus]);
 
