@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
 import { HomeHero } from "@/features/landing/HomeHero/HomeHero";
 import { Content } from "@/features/layout/Content/Content";
@@ -16,13 +15,13 @@ export const HomePage: FC<HomePageProps> = () => {
       <br />
       <Content title="Popular Rooms" size="small">
         <RoomBanner
-          to="dlf-pkdb-mjf"
+          to="/rooms/dlf-pkdb-mjf"
           title="Dev Room"
           posterUrl={roomPosterUrl}
         />
         <br />
         <RoomBanner
-          to="uyy-ofwe-wup"
+          to="/rooms/uyy-ofwe-wup"
           title="Token Gated Dev Room"
           posterUrl={roomNftPosterUrl}
         />
