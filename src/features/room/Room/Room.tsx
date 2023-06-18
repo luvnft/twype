@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useHuddle01 } from "@huddle01/react";
 import {
@@ -18,6 +18,7 @@ import { useUserMedia } from "../hooks/useUserMedia";
 import { PeerBox } from "../PeerBox/PeerBox";
 import { PeerBoxMy } from "../PeerBox/PeerBoxMy";
 import styles from "./Room.module.scss";
+import { useUserName } from "../hooks/useUserName";
 
 type RoomProps = {
   roomId: string;
@@ -27,11 +28,11 @@ const PROJECT_ID = import.meta.env.VITE_HUDDLE_PROJECT_ID;
 
 export const Room: FC<RoomProps> = ({ roomId }) => {
   useUserMedia();
+  const { userName } = useUserName();
   const { initialize, isInitialized } = useHuddle01();
   const [activePeer, setActivePeer] = useState<string | null>(null);
   const { state, send } = useMeetingMachine();
   const { joinLobby, leaveLobby, error: lobbyError } = useLobby();
-  const [userName, setUserName] = useState("");
   const { setDisplayName, error: displayNameError } = useDisplayName();
   const {
     fetchAudioStream,
@@ -79,8 +80,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
 
   useEffect(() => {
     if (roomStatus?.JoinedLobby && !userName) {
-      setDisplayName("techmeat");
-      setUserName("techmeat");
+      setDisplayName(userName);
       fetchVideoStream();
       fetchAudioStream();
     }
@@ -178,14 +178,14 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
         onToggleCamera={handleToggleCam}
       />
 
-      <div className={styles.roomState}>
+      {/* <div className={styles.roomState}>
         <pre className="break-words">
           {JSON.stringify(state.value, null, 2)}
         </pre>
-      </div>
+      </div> */}
 
       <Link to="/" className={styles.brand}>
-        Twipe
+        Twype
       </Link>
 
       {/* <div className={styles.controls}>

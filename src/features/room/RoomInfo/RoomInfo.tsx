@@ -2,6 +2,8 @@ import { FC } from "react";
 import QRCode from "react-qr-code";
 import { Room } from "../types";
 import { Button } from "@/features/form/Button/Button";
+import { RoomUserName } from "../RoomUserName/RoomUserName";
+import { useUserName } from "../hooks/useUserName";
 import nftPosterUrl from "@/assets/nft.jpg";
 import styles from "./RoomInfo.module.scss";
 
@@ -11,6 +13,7 @@ type RoomInfoProps = {
 
 export const RoomInfo: FC<RoomInfoProps> = ({ data }) => {
   const sharedLink = `${import.meta.env.VITE_SHARED_URL}/rooms/${data.roomId}`;
+  const { userName, setUserName } = useUserName();
 
   return (
     <div>
@@ -20,8 +23,12 @@ export const RoomInfo: FC<RoomInfoProps> = ({ data }) => {
             <img src={nftPosterUrl} alt="" className={styles.photo} />
           </div>
 
+          <RoomUserName onChange={setUserName} />
+
           <div className={styles.action}>
-            <Button to="join">Join to the Room</Button>
+            <Button to="join" disabled={!userName}>
+              Join to the Room
+            </Button>
           </div>
 
           <div className={styles.qr}>

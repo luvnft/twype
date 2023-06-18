@@ -76,7 +76,7 @@ export const Button: FC<ButtonProps> = ({
     ]
   );
 
-  if (href) {
+  if (href && !disabled) {
     return (
       <a
         className={classes}
@@ -89,7 +89,7 @@ export const Button: FC<ButtonProps> = ({
     );
   }
 
-  if (to) {
+  if (to && !disabled) {
     return (
       <Link className={classes} to={to}>
         {children}

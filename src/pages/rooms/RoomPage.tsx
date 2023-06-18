@@ -6,6 +6,8 @@ import { Content } from "@/features/layout/Content/Content";
 import { RoomInfo } from "@/features/room/RoomInfo/RoomInfo";
 import { Room, RoomError } from "@/features/room/types";
 import { Button } from "@/features/form/Button/Button";
+import { RoomUserName } from "@/features/room/RoomUserName/RoomUserName";
+import { useUserName } from "@/features/room/hooks/useUserName";
 
 type RoomPageProps = {};
 
@@ -15,6 +17,7 @@ export const RoomPage: FC<RoomPageProps> = () => {
   const [roomInfo, setRoomInfo] = useState<Room | null>(null);
   console.log("🚀 ~ roomInfo:", roomInfo);
   const [roomError, setRoomError] = useState<RoomError | null>(null);
+  const { userName, setUserName } = useUserName();
 
   const getMeetingInfo = useCallback(async () => {
     setIsLoading(true);
@@ -65,7 +68,12 @@ export const RoomPage: FC<RoomPageProps> = () => {
               {roomInfo ? (
                 <RoomInfo data={roomInfo} />
               ) : (
-                <Button to="join">Try to join</Button>
+                <div>
+                  <RoomUserName onChange={setUserName} />
+                  <Button to="join" disabled={!userName}>
+                    Try to join
+                  </Button>
+                </div>
               )}
             </>
           )

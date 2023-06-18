@@ -10,6 +10,7 @@ export enum InputNativeType {
 
 type InputProps = {
   value?: string;
+  placeholder?: string;
   type?: InputNativeType;
   disabled?: boolean;
   required?: boolean;
@@ -19,6 +20,7 @@ type InputProps = {
 
 export const Input: FC<InputProps> = ({
   value,
+  placeholder,
   type = "text",
   disabled,
   required,
@@ -29,6 +31,7 @@ export const Input: FC<InputProps> = ({
     <input
       value={value}
       type={type}
+      placeholder={placeholder}
       required={required}
       readOnly={readOnly}
       disabled={disabled}

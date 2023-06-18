@@ -22,7 +22,7 @@ export const Header: FC<HeaderProps> = () => {
   return (
     <header className={styles.header}>
       <Link to="/" className={styles.brand}>
-        <span className={styles.name}>Twipe</span>
+        <span className={styles.name}>Twype</span>
         <span className={styles.domain}>.com</span>
       </Link>
 
