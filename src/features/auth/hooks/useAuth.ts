@@ -1,17 +1,24 @@
-import {
-  useAuth as usePolybaseAuth,
-  useIsAuthenticated,
-} from "@polybase/react";
+import { useAccount, useConnect, useDisconnect, useEnsName } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
 
 export const useAuth = () => {
-  const { auth, state: userData, loading: authLoading } = usePolybaseAuth();
-  const [isLoggedIn, loading] = useIsAuthenticated();
+  const { address, isConnected, isDisconnected, status } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
+  const { disconnect } = useDisconnect();
+
+  // status: 'connecting' | 'reconnecting' | 'connected' | 'disconnected'
 
   return {
-    auth,
-    authLoading,
-    userData,
-    isLoggedIn,
-    isAuthLoading: loading,
+    address,
+    isConnected,
+    isDisconnected,
+    ensName,
+    connect,
+    disconnect,
+    status,
   };
 };

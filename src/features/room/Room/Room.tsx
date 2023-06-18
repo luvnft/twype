@@ -19,6 +19,8 @@ import { PeerBox } from "../PeerBox/PeerBox";
 import { PeerBoxMy } from "../PeerBox/PeerBoxMy";
 import styles from "./Room.module.scss";
 import { useUserName } from "../hooks/useUserName";
+import { useAccessToken } from "@/features/auth/hooks/useAccessToken";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 type RoomProps = {
   roomId: string;
@@ -28,6 +30,8 @@ const PROJECT_ID = import.meta.env.VITE_HUDDLE_PROJECT_ID;
 
 export const Room: FC<RoomProps> = ({ roomId }) => {
   useUserMedia();
+  const { address } = useAuth();
+  const { accessToken } = useAccessToken(address || "");
   const { userName } = useUserName();
   const { initialize, isInitialized } = useHuddle01();
   const [activePeer, setActivePeer] = useState<string | null>(null);
@@ -65,10 +69,11 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
   }, []);
 
   useEffect(() => {
-    if (isInitialized) {
-      joinLobby(roomId);
+    if (isInitialized && accessToken) {
+      console.log("🚀 ~ useEffect ~ accessToken:", accessToken);
+      joinLobby(roomId, accessToken);
     }
-  }, [isInitialized]);
+  }, [isInitialized, accessToken]);
 
   const roomStatus = useMemo(() => {
     // @ts-ignore

@@ -1,20 +1,25 @@
 import { StrictMode } from "react";
 import { Router } from "@/Router";
-import { AuthProvider, PolybaseProvider } from "@polybase/react";
-import { Polybase } from "@polybase/client";
-import { Auth } from "@polybase/auth";
+import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
 
-const polybase = new Polybase();
-const auth = new Auth();
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet],
+  [publicProvider()]
+);
+
+const config = createConfig({
+  autoConnect: true,
+  publicClient,
+  webSocketPublicClient,
+});
 
 function App() {
   return (
     <StrictMode>
-      <PolybaseProvider polybase={polybase}>
-        <AuthProvider auth={auth} polybase={polybase}>
-          <Router />
-        </AuthProvider>
-      </PolybaseProvider>
+      <WagmiConfig config={config}>
+        <Router />
+      </WagmiConfig>
     </StrictMode>
   );
 }

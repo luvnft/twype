@@ -10,7 +10,9 @@ import styles from "./Header.module.scss";
 type HeaderProps = {};
 
 export const Header: FC<HeaderProps> = () => {
-  const { auth, authLoading, isLoggedIn, isAuthLoading } = useAuth();
+  const { address, isConnected, ensName, connect, disconnect, status } =
+    useAuth();
+  console.log("🚀 ~ status:", status);
 
   const user = {
     photoUrl: `${
@@ -28,11 +30,10 @@ export const Header: FC<HeaderProps> = () => {
 
       <Nav />
 
-      {!authLoading && !isAuthLoading && (
-        <div className={styles.auth}>
-          {isLoggedIn ? (
-            <div className={styles.user}>
-              {/* <span
+      <div className={styles.auth}>
+        {isConnected ? (
+          <div className={styles.user}>
+            {/* <span
                 className={cn(
                   styles.balance,
                   user?.balance > 10 ? styles.positive : styles.negative
@@ -40,17 +41,16 @@ export const Header: FC<HeaderProps> = () => {
               >
                 ${user.balance}
               </span> */}
-              <button className={styles.logout} onClick={() => auth.signOut()}>
-                <Avatar photoUrl={user.photoUrl} />
-              </button>
-            </div>
-          ) : (
-            <div>
-              <Button onClick={() => auth.signIn()}>Sign In</Button>
-            </div>
-          )}
-        </div>
-      )}
+            <button className={styles.logout} onClick={() => disconnect()}>
+              <Avatar photoUrl={user.photoUrl} />
+            </button>
+          </div>
+        ) : (
+          <div>
+            <Button onClick={() => connect()}>Sign In</Button>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

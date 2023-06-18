@@ -7,18 +7,18 @@ type AuthProtectorProps = {};
 export const AuthProtector: FC<PropsWithChildren<AuthProtectorProps>> = ({
   children,
 }) => {
-  const { auth, authLoading, isLoggedIn, isAuthLoading } = useAuth();
+  const { isConnected, connect, status } = useAuth();
 
-  if (authLoading || isAuthLoading) {
+  if (status === "connecting" || status === "reconnecting") {
     return <div>Loading...</div>;
   }
 
-  if (!isLoggedIn) {
+  if (!isConnected) {
     return (
       <div className={styles.signIn}>
         <h1>Please, Sign In</h1>
         <div>
-          <button onClick={() => auth.signIn()}>Sign In</button>
+          <button onClick={() => connect()}>Sign In</button>
         </div>
       </div>
     );
