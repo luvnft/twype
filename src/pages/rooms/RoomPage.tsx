@@ -58,7 +58,7 @@ export const RoomPage: FC<RoomPageProps> = () => {
 
   return (
     <MainLayout>
-      <Content title={pageTitle}>
+      <Content title={pageTitle} size="small">
         {!roomError ? (
           !isLoading && (
             <>

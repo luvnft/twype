@@ -1,0 +1,20 @@
+.hero {
+  --ui-button-background: var(--color-common);
+  --ui-button-color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: var(--color-success);
+}
+
+.wrapper {
+  text-align: center;
+}
+
+.slogan {
+  margin-bottom: var(--size-gap);
+  font-size: 24px;
+  font-family: "Righteous", cursive;
+  color: var(--color-common);
+}

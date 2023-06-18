@@ -1,5 +1,19 @@
 .content {
+  width: 100%;
+  margin: 0 auto;
   padding: var(--size-gap);
+}
+
+.small {
+  max-width: 480px;
+}
+
+.medium {
+  max-width: 620px;
+}
+
+.big {
+  max-width: 800px;
 }
 
 .title {

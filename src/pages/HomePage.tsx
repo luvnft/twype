@@ -1,19 +1,31 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
+import { HomeHero } from "@/features/landing/HomeHero/HomeHero";
 import { Content } from "@/features/layout/Content/Content";
+import { RoomBanner } from "@/features/room/RoomBanner/RoomBanner";
+import roomPosterUrl from "@/assets/room.jpg";
+import roomNftPosterUrl from "@/assets/nft.jpg";
 
 type HomePageProps = {};
 
 export const HomePage: FC<HomePageProps> = () => {
   return (
     <MainLayout>
-      <Content title="Home Page">
-        <p>...landing content...</p>
-        {/* <p>
-          <Link to="huddle">Huddle</Link>
-        </p> */}
-        {/* <Link to="catalog">Catalog</Link> */}
+      <HomeHero />
+      <br />
+      <Content title="Popular Rooms" size="small">
+        <RoomBanner
+          to="dlf-pkdb-mjf"
+          title="Dev Room"
+          posterUrl={roomPosterUrl}
+        />
+        <br />
+        <RoomBanner
+          to="uyy-ofwe-wup"
+          title="Token Gated Dev Room"
+          posterUrl={roomNftPosterUrl}
+        />
       </Content>
     </MainLayout>
   );

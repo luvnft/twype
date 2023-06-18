@@ -43,7 +43,7 @@
   transition: background 0.25s, outline-color 0.25s;
 
   &:hover {
-    color: #fff;
+    color: var(--button-color);
   }
 
   &:focus-visible {

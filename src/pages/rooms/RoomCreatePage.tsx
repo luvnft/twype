@@ -8,7 +8,7 @@ type RoomCreatePageProps = {};
 export const RoomCreatePage: FC<RoomCreatePageProps> = () => {
   return (
     <MainLayout>
-      <Content title="Create your room">
+      <Content title="Create your room" size="small">
         <CreateRoomForm />
       </Content>
     </MainLayout>
