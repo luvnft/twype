@@ -6,11 +6,14 @@ import { Input } from "@/features/form/Input/Input";
 import { Select } from "@/features/form/Select/Select";
 import { Button } from "@/features/form/Button/Button";
 import { Chain, RoomType, TokenType } from "../types";
+import { RoomUserName } from "../RoomUserName/RoomUserName";
+import { useUserName } from "../hooks/useUserName";
 
 type CreateRoomFormProps = {};
 
 export const CreateRoomForm: FC<CreateRoomFormProps> = () => {
   const navigate = useNavigate();
+  const { userName, setUserName } = useUserName();
   const [isLoading, setIsLoading] = useState(false);
   const [roomType, setRoomType] = useState(RoomType.TOKEN_GATED_ROOM);
   const [roomName, setRoomName] = useState("New room");
@@ -23,10 +26,11 @@ export const CreateRoomForm: FC<CreateRoomFormProps> = () => {
   const canSubmit = useMemo(() => {
     return (
       !!roomName &&
+      !!userName &&
       ((roomType === RoomType.TOKEN_GATED_ROOM && !!contractAddress) ||
         roomType === RoomType.USUAL_ROOM)
     );
-  }, [roomName, roomType, contractAddress]);
+  }, [roomName, roomType, contractAddress, userName]);
 
   const tokenTypeOptions = [TokenType.ERC721, TokenType.ERC1155];
   const chainOptions = [
@@ -98,6 +102,10 @@ export const CreateRoomForm: FC<CreateRoomFormProps> = () => {
 
       <Fieldset label="Room name" isRequired>
         <Input value={roomName} onChange={setRoomName} />
+      </Fieldset>
+
+      <Fieldset>
+        <RoomUserName label="Your name" onChange={setUserName} />
       </Fieldset>
 
       {roomType === RoomType.TOKEN_GATED_ROOM && (

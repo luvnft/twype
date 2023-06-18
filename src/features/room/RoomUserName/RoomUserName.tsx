@@ -5,10 +5,11 @@ import { useUserName } from "../hooks/useUserName";
 import styles from "./RoomUserName.module.scss";
 
 type RoomUserNameProps = {
+  label?: string;
   onChange?: (userName: string) => void;
 };
 
-export const RoomUserName: FC<RoomUserNameProps> = ({ onChange }) => {
+export const RoomUserName: FC<RoomUserNameProps> = ({ label, onChange }) => {
   const { userName, setUserName } = useUserName();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export const RoomUserName: FC<RoomUserNameProps> = ({ onChange }) => {
 
   return (
     <div className={styles.userName}>
-      <Fieldset label="Join as" isRequired>
+      <Fieldset label={label || "Join as"} isRequired>
         <Input
           value={userName}
           placeholder="Please, enter your name"
