@@ -4,9 +4,10 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 export const useAuth = () => {
   const { address, isConnected, isDisconnected, status } = useAccount();
   const { data: ensName } = useEnsName({ address });
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect({
+      connector: new InjectedConnector(),
+    });
 
   const { disconnect } = useDisconnect();
 
@@ -20,5 +21,9 @@ export const useAuth = () => {
     connect,
     disconnect,
     status,
+    connectors,
+    error,
+    isLoading,
+    pendingConnector,
   };
 };
