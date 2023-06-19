@@ -20,7 +20,7 @@ export const CreateRoomForm: FC<CreateRoomFormProps> = () => {
   const [tokenType, setTokenType] = useState<TokenType>(TokenType.ERC721);
   const [chain, setChain] = useState(Chain.POLYGON);
   const [contractAddress, setContractAddress] = useState(
-    "0x4537E07cA68E303c4fb7c95427952F946952cBc4"
+    import.meta.env.VITE_ORB_CONTRACT
   );
 
   const canSubmit = useMemo(() => {
