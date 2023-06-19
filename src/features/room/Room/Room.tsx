@@ -178,7 +178,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
         isCalling={isJoinedToRoom}
         isMicOn={!produceAudio.isCallable}
         isCameraOn={!produceVideo.isCallable}
-        callButtonText={!isJoinedToRoom ? "Join for 1$" : "Leave the room"}
+        callButtonText={!isJoinedToRoom ? "Join" : "Leave the room"}
         onCall={handleJoinRoom}
         onCancel={handleLeaveRoom}
         onToggleMic={handleToggleMic}
