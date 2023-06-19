@@ -51,25 +51,18 @@ export const CreateRoomForm: FC<CreateRoomFormProps> = () => {
           };
 
     const response = await axios.post(
-      "https://api.huddle01.com/api/v1/create-room",
+      `${import.meta.env.VITE_API_URL}/rooms/create`,
       {
         title: roomName,
         ...requestConfig,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": import.meta.env.VITE_HUDDLE_API_KEY,
-        },
       }
     );
     setIsLoading(false);
-    console.log("🚀 ~ createRoom:", response);
-    const { roomId } = response?.data?.data;
+    const { roomId } = response?.data;
     if (roomId) {
       navigate(`/rooms/${roomId}`);
     }
-  }, []);
+  }, [roomName, tokenType, chain, contractAddress]);
 
   return (
     <>

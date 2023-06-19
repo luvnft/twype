@@ -15,7 +15,6 @@ export const RoomPage: FC<RoomPageProps> = () => {
   let { roomId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [roomInfo, setRoomInfo] = useState<Room | null>(null);
-  console.log("🚀 ~ roomInfo:", roomInfo);
   const [roomError, setRoomError] = useState<RoomError | null>(null);
   const { userName, setUserName } = useUserName();
 
@@ -23,13 +22,7 @@ export const RoomPage: FC<RoomPageProps> = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `https://api.huddle01.com/api/v1/meeting-details/${roomId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": import.meta.env.VITE_HUDDLE_API_KEY,
-          },
-        }
+        `${import.meta.env.VITE_API_URL}/meeting-details/${roomId}`
       );
       if (response?.data) {
         setRoomInfo(response.data as Room);

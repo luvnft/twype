@@ -12,7 +12,6 @@ type HeaderProps = {};
 export const Header: FC<HeaderProps> = () => {
   const { address, isConnected, ensName, connect, disconnect, status } =
     useAuth();
-  console.log("🚀 ~ status:", status);
 
   const user = {
     photoUrl: `${
