@@ -13,7 +13,7 @@ import {
 import { useDisplayName } from "@huddle01/react/app-utils";
 import cn from "classnames";
 
-import { Keyboard } from "@/features/videoPopup/Keyboard/Keyboard";
+import { Keyboard } from "@/features/call/Keyboard/Keyboard";
 import { useUserMedia } from "../hooks/useUserMedia";
 import { PeerBox } from "../PeerBox/PeerBox";
 import { PeerBoxMy } from "../PeerBox/PeerBoxMy";
@@ -91,7 +91,7 @@ export const Room: FC<RoomProps> = ({ roomId }) => {
       fetchAudioStream();
       setWasJoined(true);
     }
-  }, [roomStatus]);
+  }, [roomStatus, userName]);
 
   const handleToggleCam = () => {
     if (!produceVideo.isCallable) {

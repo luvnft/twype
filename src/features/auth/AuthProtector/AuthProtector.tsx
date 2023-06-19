@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { Button } from "@/features/form/Button/Button";
 import styles from "./AuthProtector.module.scss";
 
 type AuthProtectorProps = {};
@@ -18,7 +19,7 @@ export const AuthProtector: FC<PropsWithChildren<AuthProtectorProps>> = ({
       <div className={styles.signIn}>
         <h1>Please, Sign In</h1>
         <div>
-          <button onClick={() => connect()}>Sign In</button>
+          <Button onClick={() => connect()}>Sign In</Button>
         </div>
       </div>
     );

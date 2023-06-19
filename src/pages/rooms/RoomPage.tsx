@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { MainLayout } from "@/features/layout/MainLayout/MainLayout";
+import { AuthProtector } from "@/features/auth/AuthProtector/AuthProtector";
 import { Content } from "@/features/layout/Content/Content";
 import { RoomInfo } from "@/features/room/RoomInfo/RoomInfo";
 import { Room, RoomError } from "@/features/room/types";
@@ -54,31 +55,33 @@ export const RoomPage: FC<RoomPageProps> = () => {
 
   return (
     <MainLayout>
-      <Content title={pageTitle} size="small">
-        {!roomError ? (
-          !isLoading && (
-            <>
-              {roomInfo ? (
-                <RoomInfo data={roomInfo} />
-              ) : (
-                <div>
-                  <RoomUserName onChange={setUserName} />
-                  <Button to="join" disabled={!userName}>
-                    Try to join
-                  </Button>
-                </div>
-              )}
-            </>
-          )
-        ) : (
-          <div>
-            <p>{roomError.message}</p>
-            <p>
-              <Button to="..">Back to Rooms list</Button>
-            </p>
-          </div>
-        )}
-      </Content>
+      <AuthProtector>
+        <Content title={pageTitle} size="small">
+          {!roomError ? (
+            !isLoading && (
+              <>
+                {roomInfo ? (
+                  <RoomInfo data={roomInfo} />
+                ) : (
+                  <div>
+                    <RoomUserName onChange={setUserName} />
+                    <Button to="join" disabled={!userName}>
+                      Try to join
+                    </Button>
+                  </div>
+                )}
+              </>
+            )
+          ) : (
+            <div>
+              <p>{roomError.message}</p>
+              <p>
+                <Button to="..">Back to Rooms list</Button>
+              </p>
+            </div>
+          )}
+        </Content>
+      </AuthProtector>
     </MainLayout>
   );
 };
