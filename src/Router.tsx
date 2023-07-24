@@ -11,8 +11,9 @@ import { HuddlePage } from "@/pages/HuddlePage";
 
 import { RoomPage } from "@/pages/rooms/RoomPage";
 import { RoomPageJoin } from "@/pages/rooms/RoomPageJoin";
-import { RoomsListPage } from "./pages/rooms/RoomsListPage";
-import { RoomCreatePage } from "./pages/rooms/RoomCreatePage";
+import { RoomsListPage } from "@/pages/rooms/RoomsListPage";
+import { RoomCreatePage } from "@/pages/rooms/RoomCreatePage";
+import { ServicePage } from "@/pages/services/ServicePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,12 @@ const router = createBrowserRouter(
         <Route path="create" element={<RoomCreatePage />} />
         <Route path=":roomId" element={<RoomPage />} />
         <Route path=":roomId/join" element={<RoomPageJoin />} />
+      </Route>
+
+      <Route path="services">
+        {/* <Route index element={<RoomsListPage />} /> */}
+        {/* <Route path="create" element={<RoomCreatePage />} /> */}
+        <Route path=":serviceId" element={<ServicePage />} />
       </Route>
 
       <Route path="huddle" element={<HuddlePage />} />

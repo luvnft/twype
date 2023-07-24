@@ -16,7 +16,7 @@ export const Content: FC<PropsWithChildren<ContentProps>> = ({
 }) => {
   return (
     <main className={cn(styles.content, styles[size])}>
-      <h1 className={styles.title}>{title}</h1>
+      {title && <h1 className={styles.title}>{title}</h1>}
       {posterUrl && <div>{posterUrl}</div>}
       <article className={styles.article}>{children}</article>
     </main>
