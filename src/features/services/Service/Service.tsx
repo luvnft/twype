@@ -1,12 +1,19 @@
 import { FC, useMemo, useState } from "react";
 import cn from "classnames";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { NftCard } from "@/features/nft/NftCard/NftCard";
 import styles from "./Service.module.scss";
 
 dayjs.extend(utc);
@@ -91,8 +98,11 @@ export const Service: FC<ServiceProps> = ({ serviceId }) => {
     },
   ];
 
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [isWalletDialogOpen, setIsWalletDialogOpen] = useState(false);
+  const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
 
   const day = useMemo(() => {
     if (!selectedDate) return;
@@ -118,12 +128,42 @@ export const Service: FC<ServiceProps> = ({ serviceId }) => {
       .format("HH:mm (UTC Z)");
   }, [completedSlot]);
 
+  const nftSlot = useMemo(() => {
+    if (!selectedSlot) return;
+    const time = selectedSlot.split(":");
+    return dayjs(selectedDate)
+      .set("hour", Number(time[0]))
+      .set("minute", Number(time[1]));
+  }, [completedSlot]);
+
   const handleChangeDate = (date: any) => {
     setSelectedDate(date);
   };
 
   const handleChangeSlot = (time: string) => {
     setSelectedSlot(time);
+  };
+
+  const handleCloseConfirm = () => {
+    setIsConfirmDialogOpen(false);
+  };
+
+  const handleOpenWallet = () => {
+    setIsConfirmDialogOpen(false);
+    setIsWalletDialogOpen(true);
+  };
+
+  const handleCloseWallet = () => {
+    setIsWalletDialogOpen(false);
+  };
+
+  const handleOpenResult = () => {
+    setIsWalletDialogOpen(false);
+    setIsResultDialogOpen(true);
+  };
+
+  const handleCloseResult = () => {
+    setIsResultDialogOpen(false);
   };
 
   return (
@@ -200,10 +240,84 @@ export const Service: FC<ServiceProps> = ({ serviceId }) => {
       </div>
 
       <footer className={styles.footer}>
-        <Button variant="contained" disabled={!completedSlot}>
+        <Button
+          variant="contained"
+          disabled={!completedSlot}
+          onClick={() => setIsConfirmDialogOpen(true)}
+        >
           Book the slot for 0.1 ETH
         </Button>
       </footer>
+
+      <Dialog
+        open={isConfirmDialogOpen}
+        onClose={handleCloseConfirm}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Buying an NFT ticket</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            In the next step, you will purchase an NFT-ticket which will give
+            you access to the call at the selected time.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirm}>Cancel</Button>
+          <Button variant="contained" onClick={handleOpenWallet} autoFocus>
+            Continue
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={isWalletDialogOpen}
+        onClose={handleCloseWallet}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Any Wallet</DialogTitle>
+        <DialogContent>
+          <img
+            src="https://cryptobusinessworld.com/PostDetailItems/4245/Cred-to-enable-in-app-staking-through-Klever-wallet.png"
+            style={{ width: "100%" }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseWallet}>Cancel</Button>
+          <Button variant="contained" onClick={handleOpenResult} autoFocus>
+            Buy
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={isResultDialogOpen}
+        onClose={handleCloseResult}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <div className={styles.resultTitle}>
+            <CheckCircleOutlineIcon className={styles.successIcon} />
+            <span>Successful purchase!</span>
+          </div>
+        </DialogTitle>
+        <DialogContent>
+          <NftCard
+            author="Vitalik Buterin"
+            title="Call for 30 minutes"
+            date={nftSlot}
+            photo="https://www.ixbt.com/img/n1/news/2022/4/6/buterin_large.jpg"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseResult}>Close</Button>
+          <Button variant="contained" onClick={handleCloseResult} autoFocus>
+            Show your tickets
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
