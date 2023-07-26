@@ -2,7 +2,8 @@ import { FC } from "react";
 import { Dayjs } from "dayjs";
 import styles from "./NftCard.module.scss";
 
-type NftCardProps = {
+export type NftCardProps = {
+  id?: string;
   author: string;
   title?: string;
   date?: Dayjs;

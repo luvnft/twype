@@ -1,7 +1,8 @@
 import { FC, useMemo, useState } from "react";
-import cn from "classnames";
+import { Link } from "react-router-dom";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
+import cn from "classnames";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
@@ -138,6 +139,7 @@ export const Service: FC<ServiceProps> = ({ serviceId }) => {
 
   const handleChangeDate = (date: any) => {
     setSelectedDate(date);
+    setSelectedSlot(null);
   };
 
   const handleChangeSlot = (time: string) => {
@@ -313,7 +315,7 @@ export const Service: FC<ServiceProps> = ({ serviceId }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseResult}>Close</Button>
-          <Button variant="contained" onClick={handleCloseResult} autoFocus>
+          <Button variant="contained" component={Link} to="/profile/tickets">
             Show your tickets
           </Button>
         </DialogActions>

@@ -1,11 +1,19 @@
-.article {
-  position: relative;
+.container {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: var(--size-gap);
+  width: 100%;
+}
+
+.menu {
+  flex: 0 0 240px;
 }
 
 .content {
-  width: 100%;
+  flex: 1;
   margin: 0 auto;
-  padding: var(--size-gap);
 }
 
 .small {
@@ -18,6 +26,10 @@
 
 .big {
   max-width: 800px;
+}
+
+.article {
+  position: relative;
 }
 
 .title {
