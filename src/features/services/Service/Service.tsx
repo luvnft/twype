@@ -281,7 +281,7 @@ export const Service: FC<ServiceProps> = ({ serviceId }) => {
         <DialogTitle id="alert-dialog-title">Any Wallet</DialogTitle>
         <DialogContent>
           <img
-            src="https://cryptobusinessworld.com/PostDetailItems/4245/Cred-to-enable-in-app-staking-through-Klever-wallet.png"
+            src="https://i1.wp.com/www.bioenergyconsult.com/wp-content/uploads/2020/08/bitcoin-wallet.jpg?ssl=1"
             style={{ width: "100%" }}
           />
         </DialogContent>
