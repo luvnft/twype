@@ -1,7 +1,19 @@
-.content {
-  width: 100%;
-  margin: 0 auto;
+.container {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
   padding: var(--size-gap);
+  width: 100%;
+}
+
+.menu {
+  flex: 0 0 240px;
+}
+
+.content {
+  flex: 1;
+  margin: 0 auto;
 }
 
 .small {
@@ -14,6 +26,10 @@
 
 .big {
   max-width: 800px;
+}
+
+.article {
+  position: relative;
 }
 
 .title {
