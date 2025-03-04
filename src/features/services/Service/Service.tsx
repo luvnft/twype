@@ -23,7 +23,7 @@ type ServiceProps = {
   serviceId: string;
 };
 
-export const Service: FC = () => {
+export const Service: FC<ServiceProps> = ({ serviceId }) => {
   const slots = [
     {
       time: "9:00",
